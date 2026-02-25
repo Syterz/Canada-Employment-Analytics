@@ -2,7 +2,7 @@
 
 This is an ongoing project focused on the analysis of Canada's employment in each sector based on NAICS (North American Industry Classification System).
 
-**Stack:** Python (pandas) → S3 / Redshift/Databricks (planned) → dbt (planned) → Streamlit dashboard / Power BI (demo).
+**Stack:** Python ETL (pandas) → S3 → Glue ETL (Spark) → Redshift/Databricks (planned) → dbt (planned) → Streamlit dashboard / Power BI (demo).
 
 ## What’s going to be here
 - `data/sample_statscan.csv` — small sample dataset (safe, anonymized) for local runs.  
