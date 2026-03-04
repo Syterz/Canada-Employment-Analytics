@@ -100,7 +100,9 @@ aws s3 cp data/raw/ s3://your-bucket-name/raw/ --recursive
 ### 2. Run the Glue Job
 Deploy `glue/glue_etl_job.py` via the AWS Glue console or CLI.
 Set the following job parameters:
-- `--SOURCE_PATH`: `s3://your-bucket/raw/`
+- `--NAICS_PATH`: `s3://your-bucket/raw/NAICS.csv`
+- `--MONTHLY_PATH`: `s3://your-bucket/raw/Monthly.csv`
+- `--QUARTERLY_PATH`: `s3://your-bucket/raw/Quarterly/`
 - `--OUTPUT_PATH`: `s3://your-bucket/processed/`
 
 ### 3. Run the Databricks Notebook
