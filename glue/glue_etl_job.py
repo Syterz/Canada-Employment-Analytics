@@ -5,7 +5,7 @@ from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
-from pyspark.sql.functions import trim, col, to_date, year, lit
+from pyspark.sql.functions import trim, col, to_date, year
 from pyspark.sql.types import DoubleType
 
 
@@ -18,7 +18,7 @@ if not logger.handlers:
     logger.addHandler(handler)
 
 
-args = getResolvedOptions(sys.argv, ['JOB_NAME'])
+args = getResolvedOptions(sys.argv, ['JOB_NAME', 'NAICS_PATH', 'MONTHLY_PATH', 'QUARTERLY_PATH', 'OUTPUT_PATH'])
 sc = SparkContext()
 glueContext = GlueContext(sc)
 spark = glueContext.spark_session
@@ -26,13 +26,13 @@ job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
 
 # --------- CONFIG ----------
-RAW_S3_NAICS_PATH = "s3://raw-files-canada-employment/NAICS Canada Data.csv"  
-RAW_S3_Monthly_Vac_PATH = "s3://raw-files-canada-employment/Monthly Vac.csv"
-RAW_S3_Quarterly_Vac_PATH = "s3://raw-files-canada-employment/Canada Quarterly/*.csv"
+RAW_S3_NAICS_PATH = args['NAICS_PATH'] 
+RAW_S3_Monthly_Vac_PATH = args['MONTHLY_PATH']
+RAW_S3_Quarterly_Vac_PATH = args['QUARTERLY_PATH']
 
-OUTPUT_S3_PATH_NAICS = "s3://raw-files-canada-employment/etl-finished-files/NAICS/"
-OUTPUT_S3_PATH_Monthly = "s3://raw-files-canada-employment/etl-finished-files/MONTHLY/"
-OUTPUT_S3_PATH_Quarterly = "s3://raw-files-canada-employment/etl-finished-files/QUARTERLY/"
+OUTPUT_S3_PATH_NAICS = f"{args['OUTPUT_PATH'].rstrip('/')}/naics_employed_processed/"
+OUTPUT_S3_PATH_Monthly = f"{args['OUTPUT_PATH'].rstrip('/')}/monthly_vacancies_processed/"
+OUTPUT_S3_PATH_Quarterly = f"{args['OUTPUT_PATH'].rstrip('/')}/quarterly_vacancies_processed/"
 # ---------------------------
 
 
@@ -79,7 +79,7 @@ def transform_NAICS(df):
 
 
 def transform_Monthly_Vac(df):
-    """Cleaning for Mothly Vacancy Dataset"""
+    """Cleaning for Monthly Vacancy Dataset"""
 
     # Taking only the needed columns
     Kept_columns = ['REF_DATE','GEO','Statistics','VALUE']
