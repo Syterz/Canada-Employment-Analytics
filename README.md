@@ -45,7 +45,7 @@ Statistics Canada CSVs
 │   └── glue_ETL_job.py       # PySpark job: raw CSV → cleaned Parquet
 │
 ├── databricks/
-│   └── transform_vacancy_metrics.ipynb  # Schema work + vacancy rate computation (To be added)
+│   └── transform_vacancy_metrics.ipynb  # Schema work + vacancy rate computation + output to S3
 │
 ├── redshift/
 │   └── ddl/
